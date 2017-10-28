@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<ul></ul>
+</body>
+<script>
+	/*  ajax
+
+		1、对象
+		2、打开请求
+		3、发送请求
+		4、异步监听
+		5、操作
+	
+	 */
+	let ul=document.querySelector('ul');
+	//1、创建ajax对象
+	let xml=new XMLHttpRequest();
+	//2 、打开请求 ：打开方式  地址   是否异步
+	// （1）get请求
+	// xml.open('get','data.php?name=pe',true);
+	// （2）post 请求
+	xml.open('post','data.php',true);
+	//3、发送请求
+	// （1）
+	// xml.send();	
+	// （2）
+	xml.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+	xml.send('name=pe')		
+	//4、异步监听事件			
+	xml.onreadystatechange = function(){ 
+	//判断服务器是否可以帮你处理请求   的状态
+		if(xml.readyState == 4){
+		//数值在200~300之间或304都可以				
+			if(xml.status == 200){	
+			//把数据放在responseText上	
+				// document.body.innerHTML+=`${xml.responseText}`;		
+				let data=JSON.parse(xml.responseText);
+				data.forEach(element=>{
+					ul.innerHTML+=`<li>${element.title}----${element.content}</li>`;
+				})
+			}
+		}
+	}
+</script>
+</html>
